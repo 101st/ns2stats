@@ -1,0 +1,208 @@
+$backgroundColor: #333;
+
+html {
+  background-color: $backgroundColor;
+}
+
+div[ng-view] {
+  margin: 80px 20px;
+}
+
+body {
+  margin: 1px;
+  background-color: $backgroundColor;
+}
+
+.ui.statistic.mini.margin-none > .value {
+  font-size: 1rem !important;
+}
+
+.ui.statistic.mini.margin-none > .label {
+  color: #E8E8E8;
+}
+
+.ui.label.level {
+  margin-left: -10px;
+}
+
+.inverted.main-table {
+  margin: 60px 10px;
+}
+
+.right.floated.meta {
+  cursor: pointer;
+  &:hover {
+    color: black;
+  }
+}
+.ui.cards .ui.card .extra.content {
+  height: 42px;
+}
+
+.ui.card, .ui.cards > .card {
+  box-shadow: none;
+}
+
+.ui.text.shape {
+  cursor: pointer;
+}
+
+.hive {
+  background: url(http://hive.naturalselection2.com/template/images/logo.png) !important;
+  background-size: cover !important;
+  width: 195px;
+}
+
+.badge {
+  height: 18px !important;
+  width: 19px !important;
+  float: left;
+  margin: 1px 1px;
+  background-size: cover !important;
+}
+
+.ui.card > .content, .ui.cards > .card > .content.steam-playing {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9dd53a+0,80c217+90,90ba3c+100 */
+  background: rgb(157, 213, 58); /* Old browsers */
+  background: -moz-linear-gradient(top, rgba(157, 213, 58, 1) 0%, rgba(128, 194, 23, 1) 90%, rgba(144, 186, 60, 1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(157, 213, 58, 1) 0%, rgba(128, 194, 23, 1) 90%, rgba(144, 186, 60, 1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(157, 213, 58, 1) 0%, rgba(128, 194, 23, 1) 90%, rgba(144, 186, 60, 1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+$steamOnlineColorTop: #97f0ff;
+$steamOnlineColorMiddle: #6eccde;
+$steamOnlineColorBottom: #459db3;
+
+.ui.card > .content, .ui.cards > .card > .content.steam-online {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#57cbde+0,56c3d8+57,4ba6bc+100 */
+  background: rgb(87, 203, 222); /* Old browsers */
+  background: -moz-linear-gradient(top, $steamOnlineColorTop 0%, $steamOnlineColorMiddle 50%, $steamOnlineColorBottom 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, $steamOnlineColorTop 0%, $steamOnlineColorMiddle 50%, $steamOnlineColorBottom 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, $steamOnlineColorTop 0%, $steamOnlineColorMiddle 50%, $steamOnlineColorBottom 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+$steamOfflineColorTop: #cacaca;
+$steamOfflineColorMiddle: #a7a7a7;
+$steamOfflineColorBottom: #6f6f6f;
+
+.ui.card > .content, .ui.cards > .card > .content.steam-offline {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#898989+0,898989+49,757575+100 */
+  background: $steamOfflineColorTop; /* Old browsers */
+  background: -moz-linear-gradient(top, $steamOfflineColorTop 0%, $steamOfflineColorMiddle 50%, $steamOfflineColorBottom 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, $steamOfflineColorTop 0%, $steamOfflineColorMiddle 50%, $steamOfflineColorBottom 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, $steamOfflineColorTop 0%, $steamOfflineColorMiddle 50%, $steamOfflineColorBottom 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.avatar-height-67 {
+  width: 67px !important;
+  border-radius: 0 !important;
+}
+
+.ui.avatar {
+  box-shadow: #E8E8E8 0 0 0 3px;
+}
+
+.ui.card .avatar img, .ui.card img.avatar, .ui.cards > .card .avatar img, .ui.cards > .card img.avatar {
+  width: 3em;
+  height: 3em;
+  border-radius: 2em;
+}
+
+.dev {
+  background: url(/images/dev.png);
+}
+
+.dev_retired {
+  background: url(/images/dev_retired.png);
+}
+
+.maptester {
+  background: url(/images/maptester.png);
+}
+
+
+.squad5_gold {
+  background: url(/images/squad5_gold.png);
+}
+
+.squad5_blue {
+  background: url(/images/squad5_blue.png);
+}
+
+.squad5_silver {
+  background: url(/images/squad5_silver.png);
+}
+
+.playtester {
+  background: url(/images/playtester.png);
+}
+
+.constellation {
+  background: url(/images/constellation.png);
+}
+
+
+.reinforced1 {
+  background: url(/images/reinforced1.png);
+}
+
+.reinforced2 {
+  background: url(/images/reinforced2.png);
+}
+
+.reinforced3 {
+  background: url(/images/reinforced3.png);
+}
+
+.reinforced4 {
+  background: url(/images/reinforced4.png);
+}
+
+.reinforced5 {
+  background: url(/images/reinforced5.png);
+}
+
+.reinforced6 {
+  background: url(/images/reinforced6.png);
+}
+
+.reinforced7 {
+  background: url(/images/reinforced7.png);
+}
+
+.reinforced8 {
+  background: url(/images/reinforced8.png);
+}
+
+.ns1_playtester {
+  background: url(/images/ns1_playtester.png);
+}
+
+.commander {
+  background: url(/images/commander.png);
+}
+
+.wc2013_supporter {
+  background: url(/images/wc2013_supporter.png);
+}
+
+.wc2013_silver {
+  background: url(/images/wc2013_silver.png);
+}
+
+.wc2013_gold {
+  background: url(/images/wc2013_gold.png);
+}
+
+.wc2013_shadow {
+  background: url(/images/wc2013_shadow.png);
+}
+
+.community_dev {
+  background: url(/images/community_dev.png);
+}
+
+/*temp*/
+.margin-none {
+  margin: 0 0 !important;
+}

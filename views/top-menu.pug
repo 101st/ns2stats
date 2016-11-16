@@ -1,0 +1,35 @@
+div(ng-controller='MenuCTRL').ui.top.fixed.menu.inverted
+    .item
+        .ui.labeled.icon.input.mini
+            .ui.label Alias
+            input(type='text', ng-enter='changeRoute()', placeholder='Enter alias ...', ng-model='player.alias')
+            i.search.icon
+    .menu
+        .ui.dropdown.item Sort All By
+            i.dropdown.icon
+            .menu
+                a(href='#/{{layout}}/sort-by/skill/desc').item Skill
+                a(href='#/{{layout}}/sort-by/score/desc').item Score
+                a(href='#/{{layout}}/sort-by/level/desc').item Level
+                a(href='#/{{layout}}/sort-by/xp/desc').item XP
+                .item
+                    i.dropdown.icon
+                    span Play time
+                    .menu
+                        a(href='#/{{layout}}/sort-by/aliens-playtime/desc').item Aliens
+                        a(href='#/{{layout}}/sort-by/marines-playtime/desc').item Marins
+                        a(href='#/{{layout}}/sort-by/commander-playtime/desc').item Commander
+                        a(href='#/{{layout}}/sort-by/ns2-playtime/desc').item NS2
+    a(ng-click='changeLayout()', ng-show='layout==="cards"').item
+        i.grid.layout.icon
+    a(ng-click='changeLayout()', ng-show='layout==="table"').item
+        i.list.layout.icon
+    div(style="display: none").item
+        .ui.buttons
+            button(ng-click='i=i-1').ui.labeled.icon.button
+                i.left.chevron.icon
+                span Back
+            div(ng-init='i=1').ui.button {{i}}
+            button(ng-click='i=i+1').ui.right.labeled.icon.button Forward
+                i.right.chevron.icon
+    a(ng-click='showFAQ()').right.item Help
