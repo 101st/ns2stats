@@ -16,7 +16,7 @@ function isJson(str) {
     return true;
 }
 
-var querysLimit = 50;
+var querysLimit = 25;
 
 router.get('/', function (req, res) {
     res.render('index');
@@ -93,13 +93,16 @@ router.post('/get-players', function (req, res) {
     !searchType ? searchType = 'include' : true;
     var valueFor = req.body.valueFor;
     !valueFor ? valueFor = '' : true;
+    var page = req.body.page;
+    !page ? page = 1 : true;
 
-    function find(findBy, sortType, sortBy, searchType, valueFor) {
+    function find(findBy, sortType, sortBy, searchType, valueFor, page) {
         console.log('findBy: ' + findBy);
         console.log('sortType: ' + sortType);
         console.log('sortBy: ' + sortBy);
         console.log('searchType: ' + searchType);
         console.log('valueFor: ' + valueFor);
+        console.log('page: ' + querysLimit * page);
         switch (findBy) {
             case 'alias':
                 var param = '';
@@ -108,6 +111,7 @@ router.post('/get-players', function (req, res) {
                     .find()
                     .where('alias').equals(param)
                     .limit(querysLimit)
+                    .skip(Number(querysLimit * (page - 1)))
                     .sort([[sortBy, sortType]])
                     .exec(sendResults);
                 break;
@@ -118,6 +122,7 @@ router.post('/get-players', function (req, res) {
                             .find()
                             .where(findBy).gt(valueFor)
                             .limit(querysLimit)
+                            .skip(Number(querysLimit * page))
                             .sort([[sortBy, sortType]])
                             .exec(sendResults);
                         break;
@@ -126,6 +131,7 @@ router.post('/get-players', function (req, res) {
                             .find()
                             .where(findBy).lt(valueFor)
                             .limit(querysLimit)
+                            .skip(Number(querysLimit * page))
                             .sort([[sortBy, sortType]])
                             .exec(sendResults);
                         break;
@@ -134,6 +140,7 @@ router.post('/get-players', function (req, res) {
                             .find()
                             .where(findBy).equals(valueFor)
                             .limit(querysLimit)
+                            .skip(Number(querysLimit * page))
                             .sort([[sortBy, sortType]])
                             .exec(sendResults);
                         break;
@@ -142,22 +149,23 @@ router.post('/get-players', function (req, res) {
         }
     }
 
-    console.log(findByArray[findBy], sortByArray[sortBy], sortTypeArray[sortType], searchTypeArray[searchType]);
+    console.log(findByArray[findBy], sortByArray[sortBy], sortTypeArray[sortType], searchTypeArray[searchType], page);
     if (findByArray[findBy] && sortByArray[sortBy] && sortTypeArray[sortType] && searchTypeArray[searchType]) {
-        requestHash = findByArray[findBy] + sortByArray[sortBy] + sortTypeArray[sortType] + searchTypeArray[searchType] + valueFor;
+        find(findByArray[findBy], sortTypeArray[sortType], sortByArray[sortBy], searchTypeArray[searchType], valueFor, page);
+        /*
+        requestHash = findByArray[findBy] + sortByArray[sortBy] + sortTypeArray[sortType] + searchTypeArray[searchType] + valueFor + page;
         redisClient.get(requestHash, function (err, players) {
             if (err) {
                 console.log(err);
-                find(findByArray[findBy], sortTypeArray[sortType], sortByArray[sortBy], searchTypeArray[searchType], valueFor);
             } else {
                 if (players) {
                     res.send(players);
                 } else {
-                    find(findByArray[findBy], sortTypeArray[sortType], sortByArray[sortBy], searchTypeArray[searchType], valueFor);
+                    find(findByArray[findBy], sortTypeArray[sortType], sortByArray[sortBy], searchTypeArray[searchType], valueFor, page);
                 }
 
             }
-        })
+        })*/
     } else {
         res.send([]);
     }

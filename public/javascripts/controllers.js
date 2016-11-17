@@ -2,8 +2,13 @@
  * Created by 3dspa on 27.10.2016.
  */
 
-app.controller('MenuCTRL', function ($scope, $location, $cookies) {
-
+app.controller('MenuCTRL', function ($scope, $location, $cookies, $routeParams) {
+    $scope.$watch('page', function () {
+        var cleanPagePath = $location.path().slice(0, ($location.path().length - $location.path().indexOf('/page/')) * -1);
+        var currentPage = Number($routeParams.page);
+        $scope.prevPage = cleanPagePath + '/page/' + (currentPage - 1);
+        $scope.nextPage = cleanPagePath + '/page/' + (currentPage + 1);
+    });
     var layout = $cookies.get('layout');
     if (layout) {
         $scope.layout = layout;
@@ -22,7 +27,7 @@ app.controller('MenuCTRL', function ($scope, $location, $cookies) {
     };
 
     $scope.changeRoute = function () {
-        $location.path('/' + $scope.layout + '/sort-by/skill/desc/search-by/alias/include/value/' + $scope.player.alias);
+        $location.path('/' + $scope.layout + '/sort-by/skill/desc/search-by/alias/include/value/' + $scope.player.alias + '/page/1');
     };
 
     $scope.showFAQ = function () {
@@ -53,7 +58,8 @@ app.controller('MainCTRL', function ($scope, $http, $log, $location, $route, $ro
     }
 
     function setIndex(array) {
-        var i = 0;
+        var currentPage = Number($routeParams.page) - 1;
+        var i = 25 * currentPage;
         _.each(array, function (item) {
             i++;
             item.index = i;

@@ -94,20 +94,20 @@ app.directive('ngFinishRender', function ($timeout) {
 app.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider
-            .when('/:viewType/sort-by/:sortBy/:sortType/search-by/:findBy/:searchType/value/:valueFor', {
+            .when('/:viewType/sort-by/:sortBy/:sortType/search-by/:findBy/:searchType/value/:valueFor/page/:page', {
                 templateUrl: function (routeParam) {
                     return '/' + routeParam.viewType;
                 }
             })
-            .when('/:viewType/sort-by/:sortBy/:sortType/search-by/:findBy/:searchType/value/', {
+            .when('/:viewType/sort-by/:sortBy/:sortType/search-by/:findBy/:searchType/page/:page/value/', {
                 templateUrl: function (routeParam) {
                     return '/' + routeParam.viewType;
                 }
             })
-            .when('/:viewType/sort-by/:sortBy/:sortType', {
+            .when('/:viewType/sort-by/:sortBy/:sortType/page/:page', {
                 templateUrl: function (routeParam) {
                     return '/' + routeParam.viewType;
                 }
             })
-            .otherwise('/cards/sort-by/skill/desc');
+            .otherwise('/cards/sort-by/skill/desc/page/1');
     }]);

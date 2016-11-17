@@ -29,13 +29,13 @@ div(ng-controller='MainCTRL').ui.cards
                     .value
                         div(ng-repeat='badge in player.badges track by $index', class='badge {{badge}}')
         .content
-            div(data-value="{{player.alien_playtime}}", data-total="{{player.time_played}}", data-content='{{player.alien_playtime | msToTime}}').ui.green.small.progress
+            div(data-value="{{player.alien_playtime}}", data-total="{{player.time_played}}", data-content='{{player.alien_playtime | msToTime}}', data-position="right center").ui.green.small.progress
                 .bar
                     .progress
-            div(data-value="{{player.marine_playtime}}", data-total="{{player.time_played}}", data-content='{{player.marine_playtime | msToTime}}').ui.blue.small.progress
+            div(data-value="{{player.marine_playtime}}", data-total="{{player.time_played}}", data-content='{{player.marine_playtime | msToTime}}', data-position="right center").ui.blue.small.progress
                 .bar
                     .progress
-            div(data-value="{{player.commander_time}}", data-total="{{player.time_played}}", data-content='{{player.commander_time | msToTime}}').ui.teal.small.progress
+            div(data-value="{{player.commander_time}}", data-total="{{player.time_played}}", data-content='{{player.commander_time | msToTime}}', data-position="right center").ui.teal.small.progress
                 .bar
                     .progress
     include modal-faq

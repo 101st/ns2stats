@@ -13,6 +13,16 @@ body {
   background-color: $backgroundColor;
 }
 
+.ui.progress .bar {
+  transition: 0s;
+  animation: 0s;
+}
+
+.ui.active.progress .bar::after {
+  transition: 0s;
+  animation: 0s;
+}
+
 .ui.statistic.mini.margin-none > .value {
   font-size: 1rem !important;
 }

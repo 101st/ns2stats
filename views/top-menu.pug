@@ -8,28 +8,25 @@ div(ng-controller='MenuCTRL').ui.top.fixed.menu.inverted
         .ui.dropdown.item Sort All By
             i.dropdown.icon
             .menu
-                a(href='#/{{layout}}/sort-by/skill/desc').item Skill
-                a(href='#/{{layout}}/sort-by/score/desc').item Score
-                a(href='#/{{layout}}/sort-by/level/desc').item Level
-                a(href='#/{{layout}}/sort-by/xp/desc').item XP
+                a(href='#/{{layout}}/sort-by/skill/desc/page/1').item Skill
+                a(href='#/{{layout}}/sort-by/score/desc/page/1').item Score
+                a(href='#/{{layout}}/sort-by/level/desc/page/1').item Level
+                a(href='#/{{layout}}/sort-by/xp/desc/page/1').item XP
                 .item
                     i.dropdown.icon
                     span Play time
                     .menu
-                        a(href='#/{{layout}}/sort-by/aliens-playtime/desc').item Aliens
-                        a(href='#/{{layout}}/sort-by/marines-playtime/desc').item Marins
-                        a(href='#/{{layout}}/sort-by/commander-playtime/desc').item Commander
-                        a(href='#/{{layout}}/sort-by/ns2-playtime/desc').item NS2
+                        a(href='#/{{layout}}/sort-by/aliens-playtime/desc/page/1').item Aliens
+                        a(href='#/{{layout}}/sort-by/marines-playtime/desc/page/1').item Marins
+                        a(href='#/{{layout}}/sort-by/commander-playtime/desc/page/1').item Commander
+                        a(href='#/{{layout}}/sort-by/ns2-playtime/desc/page/1').item NS2
     a(ng-click='changeLayout()', ng-show='layout==="cards"').item
         i.grid.layout.icon
     a(ng-click='changeLayout()', ng-show='layout==="table"').item
         i.list.layout.icon
-    div(style="display: none").item
-        .ui.buttons
-            button(ng-click='i=i-1').ui.labeled.icon.button
-                i.left.chevron.icon
-                span Back
-            div(ng-init='i=1').ui.button {{i}}
-            button(ng-click='i=i+1').ui.right.labeled.icon.button Forward
-                i.right.chevron.icon
+    .item
+        a(href='#{{prevPage}}')
+            i.left.chevron.icon
+        a(href='#{{nextPage}}')
+            i.right.chevron.icon
     a(ng-click='showFAQ()').right.item Help
