@@ -1,11 +1,12 @@
 include top-menu
 div(ng-controller='MainCTRL').ui.cards
-    div(ng-repeat='player in players track by $index').ui.card
+    div(ng-repeat='player in players track by $index', ng-finish-render="ngRepeatFinished").ui.card
         div(ng-class='{"steam-offline": !player.steam.personastate, "steam-playing": player.steam.gameextrainfo, "steam-online": player.steam.personastate >= 1 && !player.steam.gameextrainfo}').content
-            div(ng-click='updatePlayer(player.steamid)').right.floated.meta
+            .right.floated.meta
                 .ui.statistic.mini.margin-none
                     .value {{player.update | timeAgo | msToTime}}
-                    .label LAST UPDATE
+                        i(ng-click='updatePlayer(player.steamid)').refresh.icon
+                    div(title='{{player.steam.personaname | subString:10}}').label {{player.alias | subString:10}}
             a(href='{{player.steam.profileurl}}', target="_blank")
                 img(ng-src='http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg', ng-show='!player.steam.avatarfull').ui.avatar.image
                 img(ng-src='{{player.steam.avatarfull}}', ng-show='player.steam.avatarfull').ui.avatar.image
@@ -24,22 +25,17 @@ div(ng-controller='MainCTRL').ui.cards
                 .statistic.margin-none
                     .value {{player.xp}}
                     .label XP
+                .statistic.margin-none
+                    .value
+                        div(ng-repeat='badge in player.badges track by $index', class='badge {{badge}}')
         .content
-            .header
-                div(id='{{player.steamid}}', ng-init='shapeInit(player.steamid)', ng-click='flipUp(player.steamid)').ui.text.shape
-                    .sides
-                        .ui.header.side.active {{player.alias}}
-                        .ui.header.side {{player.steam.personaname}} {{player.steam.loccountrycode}}
-            div alien : {{player.alien_playtime | msToTime}}
-            div marine : {{player.marine_playtime | msToTime}}
-            div commander : {{player.commander_time | msToTime}}
-            div all time: {{player.time_played| msToTime}}
-        .extra.content
-            div(ng-repeat='badge in player.badges track by $index', class='badge {{badge}}')
-        .content
-            span.right.floated
-                i.heart.outline.like.icon
-                span {{player.alien_playtime % 1000}} likes
-            i.comment.icon
-            span {{player.commander_time % 1000}} comments
+            div(data-value="{{player.alien_playtime}}", data-total="{{player.time_played}}", data-content='{{player.alien_playtime | msToTime}}').ui.green.small.progress
+                .bar
+                    .progress
+            div(data-value="{{player.marine_playtime}}", data-total="{{player.time_played}}", data-content='{{player.marine_playtime | msToTime}}').ui.blue.small.progress
+                .bar
+                    .progress
+            div(data-value="{{player.commander_time}}", data-total="{{player.time_played}}", data-content='{{player.commander_time | msToTime}}').ui.teal.small.progress
+                .bar
+                    .progress
     include modal-faq

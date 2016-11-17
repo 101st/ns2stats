@@ -33,13 +33,10 @@ app.controller('MenuCTRL', function ($scope, $location, $cookies) {
 app.controller('MainCTRL', function ($scope, $http, $log, $location, $route, $routeParams) {
     $('.ui.dropdown').dropdown();
 
-    $scope.flipUp = function (elemId) {
-        $('#' + elemId).shape('flip up')
-    };
-
-    $scope.shapeInit = function (elemId) {
-        $('#' + elemId).shape();
-    };
+    $scope.$on('ngRepeatFinished', function () {
+        $('.ui.small.progress').progress('remove active');
+        $('.ui.small.progress').popup();
+    });
 
     function Steam3IDToSteamCID(steam3ID) {
         var args = ('[U:1:' + steam3ID + ']').split(':');

@@ -78,6 +78,19 @@ app.directive('ngEnter', function () {
     };
 });
 
+app.directive('ngFinishRender', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function () {
+                    scope.$emit(attr.ngFinishRender);
+                });
+            }
+        }
+    }
+});
+
 app.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider
