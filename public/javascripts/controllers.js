@@ -6,7 +6,11 @@ app.controller('MenuCTRL', function ($scope, $location, $cookies, $routeParams) 
     $scope.$watch('page', function () {
         var cleanPagePath = $location.path().slice(0, ($location.path().length - $location.path().indexOf('/page/')) * -1);
         var currentPage = Number($routeParams.page);
-        $scope.prevPage = cleanPagePath + '/page/' + (currentPage - 1);
+        $scope.sortBy = $routeParams.sortBy;
+        if (currentPage > 1)
+            $scope.prevPage = cleanPagePath + '/page/' + (currentPage - 1);
+        else
+            $scope.prevPage = cleanPagePath + '/page/' + currentPage;
         $scope.nextPage = cleanPagePath + '/page/' + (currentPage + 1);
     });
     var layout = $cookies.get('layout');
@@ -16,14 +20,9 @@ app.controller('MenuCTRL', function ($scope, $location, $cookies, $routeParams) 
         $scope.layout = 'cards';
     }
 
-    $scope.changeLayout = function () {
-        if ($scope.layout === "cards") {
-            $scope.layout = 'table';
-            $cookies.put('layout', 'table')
-        } else {
-            $scope.layout = 'cards';
-            $cookies.put('layout', 'cards')
-        }
+    $scope.changeLayout = function (layout) {
+        $scope.layout = layout;
+        $cookies.put('layout', layout)
     };
 
     $scope.changeRoute = function () {

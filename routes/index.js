@@ -26,6 +26,10 @@ router.get('/cards', function (req, res) {
     res.render('list-cards');
 });
 
+router.get('/cards-v2', function (req, res) {
+    res.render('list-cards_v2');
+});
+
 router.get('/table', function (req, res) {
     res.render('list-table');
 });
@@ -151,8 +155,6 @@ router.post('/get-players', function (req, res) {
 
     console.log(findByArray[findBy], sortByArray[sortBy], sortTypeArray[sortType], searchTypeArray[searchType], page);
     if (findByArray[findBy] && sortByArray[sortBy] && sortTypeArray[sortType] && searchTypeArray[searchType]) {
-        find(findByArray[findBy], sortTypeArray[sortType], sortByArray[sortBy], searchTypeArray[searchType], valueFor, page);
-        /*
         requestHash = findByArray[findBy] + sortByArray[sortBy] + sortTypeArray[sortType] + searchTypeArray[searchType] + valueFor + page;
         redisClient.get(requestHash, function (err, players) {
             if (err) {
@@ -165,7 +167,7 @@ router.post('/get-players', function (req, res) {
                 }
 
             }
-        })*/
+        })
     } else {
         res.send([]);
     }

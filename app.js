@@ -31,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/cards', routes);
+app.use('/cards-v2', routes);
 app.use('/table', routes);
 app.post('/get-players', routes);
 

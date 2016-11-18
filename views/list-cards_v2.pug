@@ -1,16 +1,17 @@
 include top-menu
 div(ng-controller='MainCTRL').ui.cards
     div(ng-repeat='player in players track by $index', ng-finish-render="ngRepeatFinished").ui.card
-        div(ng-class='{"steam-offline": !player.steam.personastate, "steam-playing": player.steam.gameextrainfo, "steam-online": player.steam.personastate >= 1 && !player.steam.gameextrainfo}').content
-            .right.floated.meta
+        div(ng-class='{"steam-offline": !player.steam.personastate, "steam-playing": player.steam.gameextrainfo, "steam-online": player.steam.personastate >= 1 && !player.steam.gameextrainfo}').content.padding-none
+            a(href='{{player.steam.profileurl}}', ng-show='!player.steam.avatarfull', target="_blank", style='background-image: url("http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg")').left.floated.avatar-v2
+            a(href='{{player.steam.profileurl}}', ng-show='player.steam.avatarfull', target="_blank", style='background-image: url("{{player.steam.avatarfull}}")').left.floated.avatar-v2
+            div(style='margin: 1em;').left.floated.meta
+                .ui.statistic.mini.margin-none
+                    .label {{player.level}} lv.
+            div(style='margin: 1em;').right.floated.meta
                 .ui.statistic.mini.margin-none
                     .value {{player.update | timeAgo | msToTime}}
                         i(ng-click='updatePlayer(player.steamid)').refresh.icon
                     div(title='{{player.steam.personaname | subString:10}}').label {{player.alias | subString:10}}
-            a(href='{{player.steam.profileurl}}', target="_blank")
-                img(ng-src='http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg', ng-show='!player.steam.avatarfull').ui.avatar.image
-                img(ng-src='{{player.steam.avatarfull}}', ng-show='player.steam.avatarfull').ui.avatar.image
-                .ui.label.level {{player.level}}
         .content
             div(ng-show='player.steam.gameextrainfo').right.floated.meta in {{player.steam.gameextrainfo | subString:20}}
             .ui.mini.horizontal.statistics
@@ -22,12 +23,6 @@ div(ng-controller='MainCTRL').ui.cards
                 .statistic.margin-none
                     .value {{player.score | toFix}}
                     .label score
-                .statistic.margin-none
-                    .value {{player.xp}}
-                    .label XP
-                .statistic.margin-none
-                    div(class='badge').value
-                        div(ng-repeat='badge in player.badges track by $index', class='{{badge}}')
         .content
             div(data-value="{{player.alien_playtime}}", data-total="{{player.time_played}}", data-content='{{player.alien_playtime | msToTime}}', data-position="right center").ui.green.small.progress
                 .bar

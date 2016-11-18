@@ -51,11 +51,14 @@ body {
   width: 195px; }
 
 .badge {
-  height: 18px !important;
-  width: 19px !important;
-  float: left;
-  margin: 1px 1px;
-  background-size: cover !important; }
+  height: 40px;
+  margin-top: 10px; }
+  .badge > div {
+    height: 18px !important;
+    width: 19px !important;
+    float: left;
+    margin: 1px 1px;
+    background-size: cover !important; }
 
 .ui.card > .content, .ui.cards > .card > .content.steam-playing {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9dd53a+0,80c217+90,90ba3c+100 */
@@ -96,6 +99,12 @@ body {
 
 .ui.avatar {
   box-shadow: #E8E8E8 0 0 0 3px; }
+
+.content.padding-none a.left.floated.avatar-v2 {
+  width: 65px;
+  height: 65px;
+  background-size: contain;
+  background-repeat: no-repeat; }
 
 .ui.card .avatar img, .ui.card img.avatar, .ui.cards > .card .avatar img, .ui.cards > .card img.avatar {
   width: 3em;
@@ -174,5 +183,8 @@ body {
 /*temp*/
 .margin-none {
   margin: 0 0 !important; }
+
+.padding-none {
+  padding: 0 !important; }
 
 /*# sourceMappingURL=style.css.map */
