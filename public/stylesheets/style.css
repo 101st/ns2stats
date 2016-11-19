@@ -1,3 +1,10 @@
+div {
+  transition-duration: 0s !important;
+  transition: none !important;
+  animation: none !important; }
+  div::after {
+    animation: none !important; }
+
 html {
   background-color: #333; }
 
@@ -7,14 +14,6 @@ div[ng-view] {
 body {
   margin: 1px;
   background-color: #333; }
-
-.ui.progress .bar {
-  transition: 0s;
-  animation: 0s; }
-
-.ui.active.progress .bar::after {
-  transition: 0s;
-  animation: 0s; }
 
 .ui.statistic.mini.margin-none > .value {
   font-size: 1rem !important; }
@@ -60,15 +59,18 @@ body {
     margin: 1px 1px;
     background-size: cover !important; }
 
+.ui.card > .content, .ui.cards > .card > .content {
+  padding: .5em; }
+
 .ui.card > .content, .ui.cards > .card > .content.steam-playing {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9dd53a+0,80c217+90,90ba3c+100 */
   background: #9dd53a;
   /* Old browsers */
-  background: -moz-linear-gradient(top, #9dd53a 0%, #80c217 90%, #90ba3c 100%);
+  background: -moz-linear-gradient(top, #9dd53a 0%, #80c217 50%, #719628 100%);
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, #9dd53a 0%, #80c217 90%, #90ba3c 100%);
+  background: -webkit-linear-gradient(top, #9dd53a 0%, #80c217 50%, #719628 100%);
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #9dd53a 0%, #80c217 90%, #90ba3c 100%);
+  background: linear-gradient(to bottom, #9dd53a 0%, #80c217 50%, #719628 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ }
 
 .ui.card > .content, .ui.cards > .card > .content.steam-online {
@@ -93,12 +95,8 @@ body {
   background: linear-gradient(to bottom, #cacaca 0%, #a7a7a7 50%, #6f6f6f 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ }
 
-.avatar-height-67 {
-  width: 67px !important;
-  border-radius: 0 !important; }
-
 .ui.avatar {
-  box-shadow: #E8E8E8 0 0 0 3px; }
+  border: solid #E8E8E8 3px; }
 
 .content.padding-none a.left.floated.avatar-v2 {
   width: 65px;
@@ -107,9 +105,9 @@ body {
   background-repeat: no-repeat; }
 
 .ui.card .avatar img, .ui.card img.avatar, .ui.cards > .card .avatar img, .ui.cards > .card img.avatar {
-  width: 3em;
-  height: 3em;
-  border-radius: 2em; }
+  width: 4em;
+  height: 4em;
+  border-radius: 20em; }
 
 .dev {
   background: url(/images/dev.png); }

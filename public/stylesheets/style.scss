@@ -1,4 +1,12 @@
 $backgroundColor: #333;
+div {
+  transition-duration: 0s !important;
+  transition: none !important;
+  animation: none !important;
+  &::after {
+    animation: none !important;
+  }
+}
 
 html {
   background-color: $backgroundColor;
@@ -11,16 +19,6 @@ div[ng-view] {
 body {
   margin: 1px;
   background-color: $backgroundColor;
-}
-
-.ui.progress .bar {
-  transition: 0s;
-  animation: 0s;
-}
-
-.ui.active.progress .bar::after {
-  transition: 0s;
-  animation: 0s;
 }
 
 .ui.statistic.mini.margin-none > .value {
@@ -82,12 +80,20 @@ body {
   }
 }
 
+.ui.card > .content, .ui.cards > .card > .content {
+  padding: .5em;
+}
+
+$steamPlayingColorTop: #9dd53a;
+$steamPlayingColorMiddle: #80c217;
+$steamPlayingColorBottom: #719628;
+
 .ui.card > .content, .ui.cards > .card > .content.steam-playing {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9dd53a+0,80c217+90,90ba3c+100 */
   background: rgb(157, 213, 58); /* Old browsers */
-  background: -moz-linear-gradient(top, rgba(157, 213, 58, 1) 0%, rgba(128, 194, 23, 1) 90%, rgba(144, 186, 60, 1) 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, rgba(157, 213, 58, 1) 0%, rgba(128, 194, 23, 1) 90%, rgba(144, 186, 60, 1) 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, rgba(157, 213, 58, 1) 0%, rgba(128, 194, 23, 1) 90%, rgba(144, 186, 60, 1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  background: -moz-linear-gradient(top, $steamPlayingColorTop 0%, $steamPlayingColorMiddle 50%, $steamPlayingColorBottom 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, $steamPlayingColorTop 0%, $steamPlayingColorMiddle 50%, $steamPlayingColorBottom 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, $steamPlayingColorTop 0%, $steamPlayingColorMiddle 50%, $steamPlayingColorBottom 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 $steamOnlineColorTop: #97f0ff;
@@ -114,13 +120,8 @@ $steamOfflineColorBottom: #6f6f6f;
   background: linear-gradient(to bottom, $steamOfflineColorTop 0%, $steamOfflineColorMiddle 50%, $steamOfflineColorBottom 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
-.avatar-height-67 {
-  width: 67px !important;
-  border-radius: 0 !important;
-}
-
 .ui.avatar {
-  box-shadow: #E8E8E8 0 0 0 3px;
+  border: solid #E8E8E8 3px;
 }
 
 .content.padding-none a.left.floated.avatar-v2 {
@@ -131,9 +132,9 @@ $steamOfflineColorBottom: #6f6f6f;
 }
 
 .ui.card .avatar img, .ui.card img.avatar, .ui.cards > .card .avatar img, .ui.cards > .card img.avatar {
-  width: 3em;
-  height: 3em;
-  border-radius: 2em;
+  width: 4em;
+  height: 4em;
+  border-radius: 20em;
 }
 
 .dev {

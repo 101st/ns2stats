@@ -40,6 +40,7 @@ app.controller('MainCTRL', function ($scope, $http, $log, $location, $route, $ro
     $scope.$on('ngRepeatFinished', function () {
         $('.ui.small.progress').progress('remove active');
         $('.ui.small.progress').popup();
+        $('div.label').popup();
     });
 
     function Steam3IDToSteamCID(steam3ID) {
@@ -62,6 +63,7 @@ app.controller('MainCTRL', function ($scope, $http, $log, $location, $route, $ro
         _.each(array, function (item) {
             i++;
             item.index = i;
+            item.steam = {avatarfull: '/images/steam_default_avatar.jpg'};
         });
         return array;
     }
