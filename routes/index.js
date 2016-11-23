@@ -3,6 +3,7 @@ var router = express.Router();
 var _ = require('underscore');
 var request = require('request');
 var tr = require('tor-request');
+var config = require('../config');
 tr.TorControlPort.password = 'threelo.ru';
 var PlayersData = require('../models/PlayersData');
 var redisClient = require('../models/Redis');
@@ -43,7 +44,7 @@ router.post('/verify', function (req, res) {
         uri: 'https://www.google.com/recaptcha/api/siteverify',
         method: 'POST',
         formData: {
-            secret: '6LfltwwUAAAAALU7ChyCx9afYyg5u4AFJ1GEKj7_',
+            secret: config.dev.reCaptchaSecret,
             response: req.body.gReCaptchaResponse
         }
     }, function (err, response, body) {

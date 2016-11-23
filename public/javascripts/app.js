@@ -117,7 +117,7 @@ app.config(['$routeProvider',
 
 app.config(function (vcRecaptchaServiceProvider) {
     vcRecaptchaServiceProvider.setDefaults({
-        key: '6LfltwwUAAAAAOGHJRNvbX-NBA640xgOJbTvRwtz',
+        key: '6LeFtwwUAAAAAC1linePMefftvZCjykPiM0pDa8J',
         theme: 'dark',
     });
 });
