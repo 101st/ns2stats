@@ -73,6 +73,10 @@ var PlayersData = new Schema({
     data: {
         type: String,
         default: ''
+    },
+    tracking: {
+        type: Boolean,
+        default: false
     }
 });
 

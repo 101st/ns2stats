@@ -5,31 +5,31 @@ div(ng-controller='MenuCTRL').ui.top.fixed.menu.inverted
             input(type='text', ng-enter='changeRoute()', placeholder='Enter alias ...', ng-model='player.alias')
             i.search.icon
     .menu
-        .ui.dropdown.item Sort by > {{sortBy}}
+        .ui.dropdown.item Sort by > {{sortBy | uppercase}}
             i.dropdown.icon
             .menu
-                a(href='#/{{layout}}/sort-by/skill/desc/page/1').item Skill
-                a(href='#/{{layout}}/sort-by/score/desc/page/1').item Score
-                a(href='#/{{layout}}/sort-by/level/desc/page/1').item Level
-                a(href='#/{{layout}}/sort-by/xp/desc/page/1').item XP
+                a(href='#/{{layout.url}}/sort-by/skill/desc/page/1').item Skill
+                a(href='#/{{layout.url}}/sort-by/score/desc/page/1').item Score
+                a(href='#/{{layout.url}}/sort-by/level/desc/page/1').item Level
+                a(href='#/{{layout.url}}/sort-by/xp/desc/page/1').item XP
                 .item
                     i.dropdown.icon
                     span Play time
                     .menu
-                        a(href='#/{{layout}}/sort-by/aliens-playtime/desc/page/1').item Aliens
-                        a(href='#/{{layout}}/sort-by/marines-playtime/desc/page/1').item Marins
-                        a(href='#/{{layout}}/sort-by/commander-playtime/desc/page/1').item Commander
-                        a(href='#/{{layout}}/sort-by/ns2-playtime/desc/page/1').item NS2
+                        a(href='#/{{layout.url}}/sort-by/aliens-playtime/desc/page/1').item Aliens
+                        a(href='#/{{layout.url}}/sort-by/marines-playtime/desc/page/1').item Marins
+                        a(href='#/{{layout.url}}/sort-by/commander-playtime/desc/page/1').item Commander
+                        a(href='#/{{layout.url}}/sort-by/ns2-playtime/desc/page/1').item NS2
     .menu
-        .ui.dropdown.item Layout > {{layout}}
+        .ui.dropdown.item Layout > {{layout.name | uppercase}}
             i.dropdown.icon
             .menu
-                div(ng-click='changeLayout("cards")').item Cards
-                div(ng-click='changeLayout("cards-v2")').item Cards_v2
-                div(ng-click='changeLayout("table")').item Table
+                div(ng-repeat='layout in layouts track by $index', ng-click='changeLayout(layout)').item {{layout.name}}
     .item
         a(href='#{{prevPage}}')
             i.left.chevron.icon
+    .item {{currentPage}}
+    .item
         a(href='#{{nextPage}}')
             i.right.chevron.icon
     a(ng-click='showFAQ()').right.item Help

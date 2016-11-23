@@ -34,6 +34,35 @@ router.get('/table', function (req, res) {
     res.render('list-table');
 });
 
+router.get('/player', function (req, res) {
+    res.render('player');
+});
+
+router.post('/verify', function (req, res) {
+    request.post({
+        uri: 'https://www.google.com/recaptcha/api/siteverify',
+        method: 'POST',
+        formData: {
+            secret: '6LfltwwUAAAAALU7ChyCx9afYyg5u4AFJ1GEKj7_',
+            response: req.body.gReCaptchaResponse
+        }
+    }, function (err, response, body) {
+        if (JSON.parse(body).success) {
+            PlayersData.findOne({steamid: req.body.steamId}, function (err, player) {
+                if (err)res.send(err);
+                if (player) {
+                    player.tracking = true;
+                    player.save(function (err, player) {
+                        err
+                            ? res.send(err)
+                            : res.send(player);
+                    })
+                }
+            })
+        }
+    })
+});
+
 router.post('/get-players', function (req, res) {
     var requestHash = '';
     var sendResults = function (err, players) {
@@ -42,7 +71,7 @@ router.post('/get-players', function (req, res) {
         }
         else {
             redisClient.set(requestHash, JSON.stringify(players));
-            redisClient.expire(requestHash, 1200);
+            redisClient.expire(requestHash, 86400);
             res.send(players)
         }
 
@@ -54,19 +83,19 @@ router.post('/get-players', function (req, res) {
     var searchTypeArray = [];
 
     //sortByArray['adagrad_sum'] = 'adagrad-sum'; //type: Number
-    sortByArray['alias'] = 'alias'; // type: String
-    sortByArray['aliens-playtime'] = 'alien_playtime'; // type: Number
     //sortByArray['badges'] = 'badges'; // type:  Array
     //sortByArray['badges_enabled'] = 'badges-enabled'; // type: Boolean
+    //sortByArray['pid'] = 'pid'; // type: Number
+    //sortByArray['steamid'] = 'steamid'; // type: Number
+    //sortByArray['reinforced_tier'] = 'reinforced_tier'; // type: String
+    sortByArray['alias'] = 'alias'; // type: String
+    sortByArray['aliens-playtime'] = 'alien_playtime'; // type: Number
     sortByArray['commander-playtime'] = 'commander_time'; // type: Number
     sortByArray['level'] = 'level'; // type: Number
     sortByArray['marines-playtime'] = 'marine_playtime'; // type: Number
-    //sortByArray['pid'] = 'pid'; // type: Number
     sortByArray['ns2-playtime'] = 'time_played'; // type: Number
-    //sortByArray['steamid'] = 'steamid'; // type: Number
     sortByArray['skill'] = 'skill'; // type: Number
     sortByArray['score'] = 'score'; // type: Number
-    //sortByArray['reinforced_tier'] = 'reinforced_tier'; // type: String
     sortByArray['xp'] = 'xp'; // type: Number
     sortByArray['update'] = 'update'; // type: Date
 
@@ -88,25 +117,27 @@ router.post('/get-players', function (req, res) {
     searchTypeArray['include'] = 'include';
 
     var findBy = req.body.findBy;
-    !findBy ? findBy = 'alias' : true;
+    if (!findBy) findBy = 'alias';
     var sortBy = req.body.sortBy;
-    !sortBy ? sortBy = 'skill' : true;
+    if (!sortBy)sortBy = 'skill';
     var sortType = req.body.sortType;
-    !sortType ? sortType = 'desc' : true;
+    if (!sortType) sortType = 'desc';
     var searchType = req.body.searchType;
-    !searchType ? searchType = 'include' : true;
+    if (!searchType) searchType = 'include';
     var valueFor = req.body.valueFor;
-    !valueFor ? valueFor = '' : true;
+    if (!valueFor) valueFor = '';
     var page = req.body.page;
-    !page ? page = 1 : true;
+    if (!page) page = 1;
 
     function find(findBy, sortType, sortBy, searchType, valueFor, page) {
-        console.log('findBy: ' + findBy);
-        console.log('sortType: ' + sortType);
-        console.log('sortBy: ' + sortBy);
-        console.log('searchType: ' + searchType);
-        console.log('valueFor: ' + valueFor);
-        console.log('page: ' + querysLimit * page);
+        /*
+         console.log('findBy: ' + findBy);
+         console.log('sortType: ' + sortType);
+         console.log('sortBy: ' + sortBy);
+         console.log('searchType: ' + searchType);
+         console.log('valueFor: ' + valueFor);
+         console.log('page: ' + querysLimit * page);
+         */
         switch (findBy) {
             case 'alias':
                 var param = '';
@@ -153,12 +184,12 @@ router.post('/get-players', function (req, res) {
         }
     }
 
-    console.log(findByArray[findBy], sortByArray[sortBy], sortTypeArray[sortType], searchTypeArray[searchType], page);
+    //console.log(findByArray[findBy], sortByArray[sortBy], sortTypeArray[sortType], searchTypeArray[searchType], page);
     if (findByArray[findBy] && sortByArray[sortBy] && sortTypeArray[sortType] && searchTypeArray[searchType]) {
         requestHash = findByArray[findBy] + sortByArray[sortBy] + sortTypeArray[sortType] + searchTypeArray[searchType] + valueFor + page;
         redisClient.get(requestHash, function (err, players) {
             if (err) {
-                console.log(err);
+                res.send(err);
             } else {
                 if (players) {
                     res.send(players);
@@ -179,7 +210,6 @@ router.post('/get-player-by-steamid', function (req, res) {
             uri: 'http://hive2.ns2cdt.com/api/get/playerData/' + Number(steamid),
             method: 'GET'
         }, function (err, response, body) {
-            console.log(body);
             if (err) {
                 res.send(err)
             } else {
@@ -219,15 +249,12 @@ router.post('/get-player-by-steamid', function (req, res) {
                                         : res.send(player);
                                 })
                             } else {
-                                playerObj.adagrad_sum === null
-                                    ? playerObj.adagrad_sum = 0
-                                    : 0;
-                                playerObj.reinforced_tier === null
-                                    ? playerObj.reinforced_tier = 0
-                                    : 0;
-                                playerObj.badges === null
-                                    ? playerObj.badges = []
-                                    : 0;
+                                if (playerObj.adagrad_sum === null)
+                                    playerObj.adagrad_sum = 0;
+                                if (playerObj.reinforced_tier === null)
+                                    playerObj.reinforced_tier = 0;
+                                if (playerObj.badges === null)
+                                    playerObj.badges = [];
                                 PlayersData.create({
                                     adagrad_sum: playerObj.adagrad_sum,
                                     alias: playerObj.alias,
@@ -286,8 +313,7 @@ router.post('/get-players-from-steam', function (req, res) {
     var URL = apiURL + 'key=' + key + '&steamids=' + req.body.communityIds;
     redisClient.get(req.body.communityIds, function (err, players) {
         if (err) {
-            console.log(err);
-            getSteamPlayers();
+            res.send(err);
         } else {
             if (players) {
                 res.send(JSON.parse(players));
@@ -300,7 +326,7 @@ router.post('/get-players-from-steam', function (req, res) {
     function getSteamPlayers() {
         request(URL, function (error, response, players) {
             redisClient.set(req.body.communityIds, JSON.stringify(players));
-            redisClient.expire(req.body.communityIds, 300);
+            redisClient.expire(req.body.communityIds, 60);
             res.send(players)
         });
     }

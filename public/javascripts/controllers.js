@@ -3,9 +3,24 @@
  */
 
 app.controller('MenuCTRL', function ($scope, $location, $cookies, $routeParams) {
-    $scope.$watch('page', function () {
+    function isJson(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
+
+    $scope.currentPage = 1;
+    $scope.layouts = [
+        {name: 'Cards', url: 'cards'},
+        {name: 'Cards v.2', url: 'cards-v2'},
+        {name: 'Table', url: 'table'}
+    ];
+    $scope.$watch(['page'], function () {
         var cleanPagePath = $location.path().slice(0, ($location.path().length - $location.path().indexOf('/page/')) * -1);
-        var currentPage = Number($routeParams.page);
+        var currentPage = $scope.currentPage = Number($routeParams.page);
         $scope.sortBy = $routeParams.sortBy;
         if (currentPage > 1)
             $scope.prevPage = cleanPagePath + '/page/' + (currentPage - 1);
@@ -13,20 +28,21 @@ app.controller('MenuCTRL', function ($scope, $location, $cookies, $routeParams) 
             $scope.prevPage = cleanPagePath + '/page/' + currentPage;
         $scope.nextPage = cleanPagePath + '/page/' + (currentPage + 1);
     });
-    var layout = $cookies.get('layout');
+    var layout = isJson($cookies.get('layout'));
     if (layout) {
-        $scope.layout = layout;
+        $scope.layout = JSON.parse($cookies.get('layout'));
     } else {
-        $scope.layout = 'cards';
+        $scope.layout = {url: 'cards', name: 'Cards'}
     }
 
     $scope.changeLayout = function (layout) {
+        $location.path($location.path().replace($scope.layout.url, layout.url));
         $scope.layout = layout;
-        $cookies.put('layout', layout)
+        $cookies.put('layout', JSON.stringify(layout));
     };
 
     $scope.changeRoute = function () {
-        $location.path('/' + $scope.layout + '/sort-by/skill/desc/search-by/alias/include/value/' + $scope.player.alias + '/page/1');
+        $location.path('/' + $scope.layout.url + '/sort-by/skill/desc/search-by/alias/include/value/' + $scope.player.alias + '/page/1');
     };
 
     $scope.showFAQ = function () {
@@ -38,8 +54,9 @@ app.controller('MainCTRL', function ($scope, $http, $log, $location, $route, $ro
     $('.ui.dropdown').dropdown();
 
     $scope.$on('ngRepeatFinished', function () {
-        $('.ui.small.progress').progress('remove active');
-        $('.ui.small.progress').popup();
+        var uiSmallProgress = $('.ui.small.progress');
+        uiSmallProgress.progress('remove active');
+        uiSmallProgress.popup();
         $('div.label').popup();
     });
 
@@ -128,4 +145,29 @@ app.controller('MainCTRL', function ($scope, $http, $log, $location, $route, $ro
     };
 
     $scope.getPlayers($routeParams);
+});
+
+app.controller('PlayerCTRL', function ($scope, $http, $log, $routeParams) {
+    $scope.verify = true;
+    $scope.setWidgetId = function (widgetId) {
+        // store the `widgetId` for future usage.
+        // For example for getting the response with
+        // `recaptcha.getResponse(widgetId)`.
+    };
+
+    $scope.setResponse = function (response) {
+        // send the `response` to your server for verification.
+        $http.post('/verify', {gReCaptchaResponse: response, steamId: $routeParams.steamId})
+            .then(function successCallback(response) {
+                if (response.data.tracking === true) {
+                    $scope.verify = false;
+                }
+            }, function errorCallback(err) {
+                $log.log(err);
+            });
+    };
+
+    $scope.cbExpiration = function () {
+        // reset the 'response' object that is on scope
+    };
 });

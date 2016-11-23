@@ -1,7 +1,7 @@
 /**
  * Created by 3dspa on 27.10.2016.
  */
-var app = angular.module('app', ['ngRoute', 'ngCookies']);
+var app = angular.module('app', ['ngRoute', 'ngCookies', 'vcRecaptcha']);
 
 app.factory('cache', ['$cacheFactory', function ($cacheFactory) {
     return $cacheFactory('ns2');
@@ -109,5 +109,15 @@ app.config(['$routeProvider',
                     return '/' + routeParam.viewType;
                 }
             })
+            .when('/player/:steamId', {
+                templateUrl: '/player'
+            })
             .otherwise('/cards/sort-by/skill/desc/page/1');
     }]);
+
+app.config(function (vcRecaptchaServiceProvider) {
+    vcRecaptchaServiceProvider.setDefaults({
+        key: '6LfltwwUAAAAAOGHJRNvbX-NBA640xgOJbTvRwtz',
+        theme: 'dark',
+    });
+});

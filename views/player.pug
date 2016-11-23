@@ -1,0 +1,6 @@
+//
+   Created by 3dspa on 23.11.2016.
+include top-menu-player
+div(ng-controller='PlayerCTRL')
+    div(vc-recaptcha, on-create="setWidgetId(widgetId)", on-success="setResponse(response)", on-expire="cbExpiration()", ng-show='verify')
+include modal-faq

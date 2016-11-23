@@ -1,8 +1,8 @@
-div {
+div.bar {
   transition-duration: 0s !important;
   transition: none !important;
   animation: none !important; }
-  div::after {
+  div.bar::after {
     animation: none !important; }
 
 html {

@@ -1,0 +1,7 @@
+div(ng-controller='MenuCTRL').ui.top.fixed.menu.inverted
+    .item
+        .ui.labeled.icon.input.mini
+            .ui.label Alias
+            input(type='text', ng-enter='changeRoute()', placeholder='Enter alias ...', ng-model='player.alias')
+            i.search.icon
+    a(ng-click='showFAQ()').right.item Help

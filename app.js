@@ -4,10 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose'),
-    dbConfig = require('./config');
+var mongoose = require('mongoose');
+var config = require('./config');
 mongoose.Promise = global.Promise;
-mongoose.connect(dbConfig.dev.dbConfig, function () {
+mongoose.connect(config.dev.dbConfig, function () {
     console.log('Mongodb connected')
 });
 
@@ -33,7 +33,9 @@ app.use('/', routes);
 app.use('/cards', routes);
 app.use('/cards-v2', routes);
 app.use('/table', routes);
+app.use('/player', routes);
 app.post('/get-players', routes);
+app.post('/verify', routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

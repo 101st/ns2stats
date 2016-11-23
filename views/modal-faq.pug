@@ -4,7 +4,27 @@
     .content
         .description
             .ui.list
-                .item 1
-                .item 1
-                .item 1
-                .item 1
+                .item sortByArray['alias'] = 'alias'; // type: String
+                .item sortByArray['aliens-playtime'] = 'alien_playtime'; // type: Number
+                .item sortByArray['commander-playtime'] = 'commander_time'; // type: Number
+                .item sortByArray['level'] = 'level'; // type: Number
+                .item sortByArray['marines-playtime'] = 'marine_playtime'; // type: Number
+                .item sortByArray['ns2-playtime'] = 'time_played'; // type: Number
+                .item sortByArray['skill'] = 'skill'; // type: Number
+                .item sortByArray['score'] = 'score'; // type: Number
+                .item sortByArray['xp'] = 'xp'; // type: Number
+                .item sortByArray['update'] = 'update'; // type: Date
+                .item findByArray['steamid'] = 'steamid';
+                .item findByArray['alias'] = 'alias';
+                .item findByArray['level'] = 'level';
+                .item findByArray['score'] = 'score';
+                .item findByArray['aliens-playtime'] = 'alien_playtime';
+                .item findByArray['marines-playtime'] = 'marine_playtime';
+                .item findByArray['commander-playtime'] = 'commander_time';
+                .item findByArray['playtime'] = 'time_played';
+                .item sortTypeArray['asc'] = 1;
+                .item sortTypeArray['desc'] = -1;
+                .item searchTypeArray['gt'] = 'gt';
+                .item searchTypeArray['lt'] = 'lt';
+                .item searchTypeArray['equals'] = 'equals';
+                .item searchTypeArray['include'] = 'include';
