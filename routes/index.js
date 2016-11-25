@@ -72,7 +72,7 @@ router.post('/get-players', function (req, res) {
         }
         else {
             redisClient.set(requestHash, JSON.stringify(players));
-            redisClient.expire(requestHash, 86400);
+            redisClient.expire(requestHash, 600);
             res.send(players)
         }
 
@@ -310,7 +310,7 @@ router.post('/get-player-by-steamid', function (req, res) {
 
 router.post('/get-players-from-steam', function (req, res) {
     var apiURL = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?';
-    var key = '51EB587C3DCA5E0680BA23950BC07083';
+    var key = config.dev.steamKey;
     var URL = apiURL + 'key=' + key + '&steamids=' + req.body.communityIds;
     redisClient.get(req.body.communityIds, function (err, players) {
         if (err) {

@@ -2,5 +2,12 @@
    Created by 3dspa on 23.11.2016.
 include top-menu-player
 div(ng-controller='PlayerCTRL')
-    div(vc-recaptcha, on-create="setWidgetId(widgetId)", on-success="setResponse(response)", on-expire="cbExpiration()", ng-show='verify')
+    .ui.segment
+        div(vc-recaptcha, on-create="setWidgetId(widgetId)", on-success="setResponse(response)", on-expire="cbExpiration()", ng-show='verify')
+        div(ng-show='loader').ui.active.dimmer
+            .ui.loader
+        div(ng-show='!verify').ui.positive.message
+            .header Now your progress are tracking
+            p
+                a(href='/') Go back (Wait 1-2 days to update profile)
 include modal-faq

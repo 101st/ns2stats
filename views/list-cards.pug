@@ -5,13 +5,15 @@ div(ng-controller='MainCTRL').ui.cards
             .right.floated.meta
                 .ui.statistic.mini.margin-none
                     .value {{player.update | timeAgo | msToTime}}
-                        i(ng-click='updatePlayer(player.steamid)').refresh.icon
-                    div(data-content='{{player.steam.personaname}}', data-position="bottom center").label {{player.alias | subString:20}}
+                        i(ng-click='updatePlayer(player.steamid)', data-content='refresh player data', data-position="top center").refresh.icon
+                        a(href='#/player/{{player.steamid}}', data-content='subscribe on data tracking', data-position="top center", ng-hide='player.tracking')
+                            i.history.icon
+                    div(data-content='{{player.steam.personaname}}', data-position="bottom center").label {{player.alias | subString:15}}
             a(href='{{player.steam.profileurl}}', target="_blank")
                 img(ng-src='{{player.steam.avatarfull}}').ui.avatar.image
                 .ui.label.level {{player.level}}
         .content
-            div(ng-show='player.steam.gameextrainfo').right.floated.meta in {{player.steam.gameextrainfo | subString:20}}
+            div(ng-show='player.steam.gameextrainfo').right.floated.meta in {{player.steam.gameextrainfo | subString:15}}
             .ui.mini.horizontal.statistics
                 .statistic.margin-none
                     .value # {{player.index}}

@@ -20,7 +20,7 @@ body {
 
 .ui.statistic.mini.margin-none .value {
   color: #E8E8E8; }
-  .ui.statistic.mini.margin-none .value .refresh.icon {
+  .ui.statistic.mini.margin-none .value .icon {
     margin-left: 1em;
     cursor: pointer; }
 .ui.statistic.mini.margin-none .label {

@@ -1,17 +1,30 @@
 /**
  * Created by 3dspa on 27.10.2016.
  */
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
+function Steam3IDToSteamCID(steam3ID) {
+    var args = ('[U:1:' + steam3ID + ']').split(':');
+    var accountID = args[2].replace(']', '');
+    var Y, Z;
+    if (accountID % 2 === 0) {
+        Y = 0;
+        Z = accountID / 2;
+    } else {
+        Y = 1;
+        Z = (accountID - 1) / 2
+    }
+    return String('7656119') + String((Z * 2) + (7960265728 + Y));
+}
 
 app.controller('MenuCTRL', function ($scope, $location, $cookies, $routeParams) {
-    function isJson(str) {
-        try {
-            JSON.parse(str);
-        } catch (e) {
-            return false;
-        }
-        return true;
-    }
-
     $scope.currentPage = 1;
     $scope.layouts = [
         {name: 'Cards', url: 'cards'},
@@ -55,24 +68,10 @@ app.controller('MainCTRL', function ($scope, $http, $log, $location, $route, $ro
 
     $scope.$on('ngRepeatFinished', function () {
         var uiSmallProgress = $('.ui.small.progress');
+        var popupElems = $('[data-content]');
         uiSmallProgress.progress('remove active');
-        uiSmallProgress.popup();
-        $('div.label').popup();
+        popupElems.popup();
     });
-
-    function Steam3IDToSteamCID(steam3ID) {
-        var args = ('[U:1:' + steam3ID + ']').split(':');
-        var accountID = args[2].replace(']', '');
-        var Y, Z;
-        if (accountID % 2 === 0) {
-            Y = 0;
-            Z = accountID / 2;
-        } else {
-            Y = 1;
-            Z = (accountID - 1) / 2
-        }
-        return String('7656119') + String((Z * 2) + (7960265728 + Y));
-    }
 
     function setIndex(array) {
         var currentPage = Number($routeParams.page) - 1;
@@ -99,13 +98,17 @@ app.controller('MainCTRL', function ($scope, $http, $log, $location, $route, $ro
         });
         $http.post('/get-players-from-steam', {communityIds: requestArray.substring(0, requestArray.length - 1)})
             .then(function successCallback(response) {
-                _.each($scope.players, function (player) {
-                    _.each(response.data.response.players, function (steamPlayer) {
-                        if (player.steamCID === steamPlayer.steamid) {
-                            player.steam = steamPlayer
-                        }
+                if (isJson(response.players)) {
+                    _.each($scope.players, function (player) {
+                        _.each(response.data.response.players, function (steamPlayer) {
+                            if (player.steamCID === steamPlayer.steamid) {
+                                player.steam = steamPlayer
+                            }
+                        })
                     })
-                })
+                } else {
+                    $scope.getSteamData();
+                }
             }, function errorCallback(err) {
                 $log.error(err);
             });
@@ -149,6 +152,7 @@ app.controller('MainCTRL', function ($scope, $http, $log, $location, $route, $ro
 
 app.controller('PlayerCTRL', function ($scope, $http, $log, $routeParams) {
     $scope.verify = true;
+    $scope.loader = false;
     $scope.setWidgetId = function (widgetId) {
         // store the `widgetId` for future usage.
         // For example for getting the response with
@@ -156,11 +160,13 @@ app.controller('PlayerCTRL', function ($scope, $http, $log, $routeParams) {
     };
 
     $scope.setResponse = function (response) {
+        $scope.loader = true;
         // send the `response` to your server for verification.
         $http.post('/verify', {gReCaptchaResponse: response, steamId: $routeParams.steamId})
             .then(function successCallback(response) {
                 if (response.data.tracking === true) {
                     $scope.verify = false;
+                    $scope.loader = false;
                 }
             }, function errorCallback(err) {
                 $log.log(err);
