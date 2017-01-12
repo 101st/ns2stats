@@ -98,17 +98,13 @@ app.controller('MainCTRL', function ($scope, $http, $log, $location, $route, $ro
         });
         $http.post('/get-players-from-steam', {communityIds: requestArray.substring(0, requestArray.length - 1)})
             .then(function successCallback(response) {
-                if (isJson(response.players)) {
-                    _.each($scope.players, function (player) {
-                        _.each(response.data.response.players, function (steamPlayer) {
-                            if (player.steamCID === steamPlayer.steamid) {
-                                player.steam = steamPlayer
-                            }
-                        })
+                _.each($scope.players, function (player) {
+                    _.each(response.data.response.players, function (steamPlayer) {
+                        if (player.steamCID === steamPlayer.steamid) {
+                            player.steam = steamPlayer
+                        }
                     })
-                } else {
-                    $scope.getSteamData();
-                }
+                })
             }, function errorCallback(err) {
                 $log.error(err);
             });
@@ -176,4 +172,15 @@ app.controller('PlayerCTRL', function ($scope, $http, $log, $routeParams) {
     $scope.cbExpiration = function () {
         // reset the 'response' object that is on scope
     };
+});
+
+app.controller('PlayerTrackingDataCTRL', function ($scope, $http, $log, $routeParams) {
+    $scope.playerDataArray = [];
+    $http.post('/get-player-tracking-data', {steamId: $routeParams.steamId})
+        .then(function successCallback(response) {
+            $log.log(response);
+            $scope.playerDataArray = response.data;
+        }, function errorCallback(err) {
+            $log.log(err);
+        });
 });

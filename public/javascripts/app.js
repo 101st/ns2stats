@@ -109,8 +109,11 @@ app.config(['$routeProvider',
                     return '/' + routeParam.viewType;
                 }
             })
-            .when('/player/:steamId', {
-                templateUrl: '/player'
+            .when('/player-sub-on-tracking/:steamId', {
+                templateUrl: '/player-sub-on-tracking'
+            })
+            .when('/player-tracking-data/:steamId', {
+                templateUrl: '/player-tracking-data'
             })
             .otherwise('/cards/sort-by/skill/desc/page/1');
     }]);
@@ -118,6 +121,6 @@ app.config(['$routeProvider',
 app.config(function (vcRecaptchaServiceProvider) {
     vcRecaptchaServiceProvider.setDefaults({
         key: '6LeFtwwUAAAAAC1linePMefftvZCjykPiM0pDa8J',
-        theme: 'dark',
+        theme: 'dark'
     });
 });

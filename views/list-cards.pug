@@ -6,8 +6,10 @@ div(ng-controller='MainCTRL').ui.cards
                 .ui.statistic.mini.margin-none
                     .value {{player.update | timeAgo | msToTime}}
                         i(ng-click='updatePlayer(player.steamid)', data-content='refresh player data', data-position="top center").refresh.icon
-                        a(href='#/player/{{player.steamid}}', data-content='subscribe on data tracking', data-position="top center", ng-hide='player.tracking')
+                        a(href='#/player-sub-on-tracking/{{player.steamid}}', data-content='subscribe on data tracking', data-position="top center", ng-hide='player.tracking')
                             i.history.icon
+                        a(href='#/player-tracking-data/{{player.steamid}}', data-content='see your tracking data', data-position="top center", ng-show='player.tracking')
+                            i.unhide.icon
                     div(data-content='{{player.steam.personaname}}', data-position="bottom center").label {{player.alias | subString:15}}
             a(href='{{player.steam.profileurl}}', target="_blank")
                 img(ng-src='{{player.steam.avatarfull}}').ui.avatar.image

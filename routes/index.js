@@ -6,6 +6,7 @@ var tr = require('tor-request');
 var config = require('../config');
 tr.TorControlPort.password = 'threelo.ru';
 var PlayersData = require('../models/PlayersData');
+var PlayersDataTracking = require('../models/PlayersDataTracking');
 var redisClient = require('../models/Redis');
 
 function isJson(str) {
@@ -35,8 +36,49 @@ router.get('/table', function (req, res) {
     res.render('list-table');
 });
 
-router.get('/player', function (req, res) {
-    res.render('player');
+router.get('/player-sub-on-tracking', function (req, res) {
+    res.render('player-sub-on-tracking');
+});
+
+router.get('/player-tracking-data', function (req, res) {
+    res.render('player-tracking-data');
+});
+
+router.post('/get-player-tracking-data', function (req, res) {
+    var requestHash = '';
+    var sendResults = function (err, player) {
+        if (err) {
+            res.send(err)
+        }
+        else {
+            redisClient.set(requestHash, JSON.stringify(player));
+            redisClient.expire(requestHash, 86400);
+            res.send(player)
+        }
+    };
+    if (req.body.steamId) {
+        requestHash = 'player-data-tracking-for-steamId=' + req.body.steamId;
+        redisClient.get(requestHash, function (err, players) {
+            if (err) {
+                res.send(err);
+            } else {
+                if (players) {
+                    res.send(players);
+                } else {
+                    getPlayer(req.body.steamId);
+                }
+            }
+        })
+    } else {
+        res.send([]);
+    }
+    function getPlayer(steamId) {
+        PlayersDataTracking
+            .find()
+            .where('steamid').equals(steamId)
+            .sort('update')
+            .exec(sendResults);
+    }
 });
 
 router.post('/verify', function (req, res) {
@@ -72,7 +114,7 @@ router.post('/get-players', function (req, res) {
         }
         else {
             redisClient.set(requestHash, JSON.stringify(players));
-            redisClient.expire(requestHash, 600);
+            redisClient.expire(requestHash, 86400);
             res.send(players)
         }
 
@@ -327,7 +369,7 @@ router.post('/get-players-from-steam', function (req, res) {
     function getSteamPlayers() {
         request(URL, function (error, response, players) {
             redisClient.set(req.body.communityIds, JSON.stringify(players));
-            redisClient.expire(req.body.communityIds, 60);
+            redisClient.expire(req.body.communityIds, 300);
             res.send(players)
         });
     }

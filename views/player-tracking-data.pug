@@ -1,0 +1,26 @@
+//
+   Created by 3dspa on 23.11.2016.
+include top-menu-player
+div(ng-controller='PlayerTrackingDataCTRL')
+    table.ui.inverted.small.table
+        thead
+            tr
+                th Level
+                th Skill
+                th Score
+                th XP
+                th Alien play time
+                th Marine play time
+                th Commander play time
+                th Time ago
+        tbody
+            tr(ng-repeat='data in playerDataArray track by $index')
+                td {{data.level}}
+                td {{data.skill | toFix}}
+                td {{data.score | toFix}}
+                td {{data.xp | toFix}}
+                td {{data.alien_playtime | msToTime}}
+                td {{data.marine_playtime | msToTime}}
+                td {{data.commander_time | msToTime}}
+                td {{data.update | timeAgo | msToTime}}
+include modal-faq

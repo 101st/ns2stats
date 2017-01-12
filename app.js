@@ -33,9 +33,11 @@ app.use('/', routes);
 app.use('/cards', routes);
 app.use('/cards-v2', routes);
 app.use('/table', routes);
-app.use('/player', routes);
+app.use('/player-sub-on-tracking', routes);
+app.use('/player-tracking-data', routes);
 app.post('/get-players', routes);
 app.post('/verify', routes);
+app.post('/get-player-tracking-data', routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
