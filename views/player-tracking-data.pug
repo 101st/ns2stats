@@ -2,6 +2,10 @@
    Created by 3dspa on 23.11.2016.
 include top-menu-player
 div(ng-controller='PlayerTrackingDataCTRL')
+    canvas(id='myChartSkill' ,width=960, height=200)
+    canvas(id='myChartLevel' ,width=960, height=200)
+    canvas(id='myChartScore' ,width=960, height=200)
+    canvas(id='myChartXP' ,width=960, height=200)
     table.ui.inverted.small.table
         thead
             tr
