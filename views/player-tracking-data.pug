@@ -20,11 +20,11 @@ div(ng-controller='PlayerTrackingDataCTRL')
         tbody
             tr(ng-repeat='data in playerDataArray track by $index')
                 td {{data.level}}
-                td {{data.skill | toFix}}
+                td(style='color: red;') {{data.skill | toFix}}
                 td {{data.score | toFix}}
                 td {{data.xp | toFix}}
-                td {{data.alien_playtime | msToTime}}
-                td {{data.marine_playtime | msToTime}}
-                td {{data.commander_time | msToTime}}
-                td {{data.update | timeAgo | msToTime}}
+                td(style='color: lightgreen;') {{data.alien_playtime | msToTime}}
+                td(style='color: lightblue;') {{data.marine_playtime | msToTime}}
+                td(style='color: lightgray;') {{data.commander_time | msToTime}}
+                td {{data.update}}
 include modal-faq

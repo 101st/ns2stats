@@ -179,13 +179,13 @@ app.controller('PlayerTrackingDataCTRL', function ($scope, $http, $log, $routePa
     var myChartsArray = [];
 
     function createChart(ctx, data) {
-        myChartsArray[ctx] = new Chart(document.getElementById(ctx).getContext("2d"), {
+        myChartsArray[ctx] = new Chart(document.getElementById('myChart' + ctx).getContext("2d"), {
             type: 'line',
             data: {
                 labels: data.labels,
                 datasets: [
                     {
-                        label: "Skill",
+                        label: ctx,
                         fill: false,
                         lineTension: 0.1,
                         backgroundColor: "rgba(75,192,192,0.4)",
@@ -209,33 +209,37 @@ app.controller('PlayerTrackingDataCTRL', function ($scope, $http, $log, $routePa
                 ]
             },
             options: {
-                scaleOverride: true
+                scaleOverride: true,
+                labels: {
+                    enabled: true,
+                    mode: 'single',
+                    callbacks: {
+                        label: function (tooltipItems, data) {
+                            //return tooltipItems.yLabel + ' €';
+                            console.log(tooltipItems, data);
+                        }
+                    }
+                }
             }
         });
     }
 
-    function dateFormat(dateArray) {
-        var newArray = [];
-        _.each(dateArray, function (time) {
-            var newDate = new Date(time);
-            newArray.push((1 + newDate.getDay()) + '.' + newDate.getMonth() + '.' + newDate.getFullYear())
-        });
-        return newArray;
-    }
-
     $http.post('/get-player-tracking-data', {steamId: $routeParams.steamId})
         .then(function successCallback(response) {
-            $log.log(response);
-            $scope.playerDataArray = response.data;
-            var timeArray = dateFormat(_.pluck(response.data, 'update'));
+            _.each(response.data, function (item) {
+                var newDate = new Date(item.update);
+                item.update = newDate.getDate() + '.' + (newDate.getMonth() + 1) + '.' + newDate.getFullYear();
+                $scope.playerDataArray.push(item);
+            });
+            var timeArray = _.pluck(response.data, 'update');
             var skillArray = _.pluck(response.data, 'skill');
             var levelArray = _.pluck(response.data, 'level');
             var scoreArray = _.pluck(response.data, 'score');
             var xpArray = _.pluck(response.data, 'xp');
-            createChart('myChartSkill', {labels: timeArray, data: skillArray});
-            createChart('myChartLevel', {labels: timeArray, data: levelArray});
-            createChart('myChartScore', {labels: timeArray, data: scoreArray});
-            createChart('myChartXP', {labels: timeArray, data: xpArray});
+            createChart('Skill', {labels: timeArray, data: skillArray});
+            createChart('Level', {labels: timeArray, data: levelArray});
+            createChart('Score', {labels: timeArray, data: scoreArray});
+            createChart('XP', {labels: timeArray, data: xpArray});
         }, function errorCallback(err) {
             $log.log(err);
         });
