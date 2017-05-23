@@ -185,4 +185,16 @@ body {
 .padding-none {
   padding: 0 !important; }
 
+a.ensl-link {
+  font-family: "Russo One",sans-serif;
+  font-weight: normal;
+  color: white;
+  text-transform: uppercase;
+  font-size: 8px;
+  width: 18px;
+  height: 24px;
+  display: inline-block;
+  letter-spacing: 2px;
+  transform: rotate(-90deg); }
+
 /*# sourceMappingURL=style.css.map */

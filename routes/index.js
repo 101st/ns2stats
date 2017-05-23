@@ -92,7 +92,7 @@ router.post('/verify', function (req, res) {
     }, function (err, response, body) {
         if (JSON.parse(body).success) {
             PlayersData.findOne({steamid: req.body.steamId}, function (err, player) {
-                if (err)res.send(err);
+                if (err) res.send(err);
                 if (player) {
                     player.tracking = true;
                     player.save(function (err, player) {
@@ -162,7 +162,7 @@ router.post('/get-players', function (req, res) {
     var findBy = req.body.findBy;
     if (!findBy) findBy = 'alias';
     var sortBy = req.body.sortBy;
-    if (!sortBy)sortBy = 'skill';
+    if (!sortBy) sortBy = 'skill';
     var sortType = req.body.sortType;
     if (!sortType) sortType = 'desc';
     var searchType = req.body.searchType;
@@ -373,6 +373,54 @@ router.post('/get-players-from-steam', function (req, res) {
             res.send(players)
         });
     }
+});
+
+router.post('/get-players-from-ensl', function (req, res) {
+    var promiseArray = [];
+    _.each(req.body.steamIdArray.split(','), function (steamid) {
+        promiseArray.push(new Promise(function (resolve, reject) {
+            redisClient.get(steamid + '_ensl.org', function (err, players) {
+                if (err) {
+                    reject(err);
+                } else {
+                    if (players) {
+                        resolve({
+                            steamid: steamid,
+                            enslData: JSON.parse(players)
+                        });
+                    } else {
+                        getSteamPlayers();
+                    }
+
+                }
+            });
+            function getSteamPlayers() {
+                var apiURL = 'https://www.ensl.org/api/v1/users/show/' + steamid + '?format=steamid';
+                request(apiURL, function (error, response, players) {
+                    redisClient.set(steamid + '_ensl.org', JSON.stringify(players));
+                    redisClient.expire(steamid + '_ensl.org', 259200 /*every 2 days*/);
+                    resolve({
+                        steamid: steamid,
+                        enslData: JSON.parse(players)
+                    });
+                });
+            }
+        }));
+    });
+    Promise.all(promiseArray).then(function (result) {
+        var playerArray = [];
+        _.each(result, function (player) {
+            if (isJson(player.enslData)) {
+                playerArray.push({
+                    steamid: Number(player.steamid),
+                    enslData: JSON.parse(player.enslData)
+                });
+            }
+        });
+        res.send(playerArray);
+    }, function (err) {
+        res.send(err);
+    });
 });
 
 module.exports = router;

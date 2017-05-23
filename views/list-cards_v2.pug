@@ -10,7 +10,7 @@ div(ng-controller='MainCTRL').ui.cards
                 .ui.statistic.mini.margin-none
                     .value {{player.update | timeAgo | msToTime}}
                         i(ng-click='updatePlayer(player.steamid)').refresh.icon
-                    div(data-content='{{player.steam.personaname}}', data-position="bottom center").label {{player.alias | subString:13}}
+                    div(data-content='{{player.steam.personaname}}', data-position="bottom center").label {{player.alias | subString:10}}
         .content
             div(ng-show='player.steam.gameextrainfo').right.floated.meta in {{player.steam.gameextrainfo | subString:20}}
             .ui.mini.horizontal.statistics

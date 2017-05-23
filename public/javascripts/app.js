@@ -10,9 +10,9 @@ app.factory('cache', ['$cacheFactory', function ($cacheFactory) {
 app.filter('subString', function () {
     return function (input, param) {
         if (input && input.length > param) {
-            return input.substring(0, param) + ' ...'
+            return input.substring(0, param);
         } else {
-            return input
+            return input;
         }
     }
 });
@@ -65,6 +65,12 @@ app.filter('timeAgo', function () {
     }
 });
 
+app.filter('noSlash', function () {
+    return function (input) {
+            return input.replace('/','-');
+    }
+});
+
 app.directive('ngEnter', function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
@@ -112,7 +118,7 @@ app.config(['$routeProvider',
             .when('/player-sub-on-tracking/:steamId', {
                 templateUrl: '/player-sub-on-tracking'
             })
-            .when('/player-tracking-data/:steamId', {
+            .when('/player-tracking-data/:steamId/:alias', {
                 templateUrl: '/player-tracking-data'
             })
             .otherwise('/cards/sort-by/skill/desc/page/1');

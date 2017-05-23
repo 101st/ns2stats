@@ -90,21 +90,30 @@ app.controller('MainCTRL', function ($scope, $http, $log, $location, $route, $ro
     };
 
     $scope.getSteamData = function () {
-        var requestArray = '';
+        var requestArraySteam = '';
+        var requestArrayENSL = '';
         _.each($scope.players, function (player) {
             var steamCID = Steam3IDToSteamCID(player.steamid);
             player.steamCID = steamCID;
-            requestArray = requestArray + steamCID + ',';
+            requestArraySteam = requestArraySteam + steamCID + ',';
+            requestArrayENSL = requestArrayENSL + player.steamid + ',';
         });
-        $http.post('/get-players-from-steam', {communityIds: requestArray.substring(0, requestArray.length - 1)})
+        $http.post('/get-players-from-steam', {communityIds: requestArraySteam.substring(0, requestArraySteam.length - 1)})
             .then(function successCallback(response) {
                 _.each($scope.players, function (player) {
-                    _.each(response.data.response.players, function (steamPlayer) {
-                        if (player.steamCID === steamPlayer.steamid) {
-                            player.steam = steamPlayer
-                        }
-                    })
+                    player.steam = _.findWhere(response.data.response.players, {steamid: player.steamCID});
                 })
+            }, function errorCallback(err) {
+                $log.error(err);
+            });
+        $http.post('/get-players-from-ensl', {steamIdArray: requestArrayENSL.substring(0, requestArrayENSL.length - 1)})
+            .then(function successCallback(response) {
+                _.each($scope.players, function (player) {
+                    var playerENSLData = _.findWhere(response.data, {steamid: player.steamid});
+                    if (playerENSLData) {
+                        player.ensl = playerENSLData.enslData;
+                    }
+                });
             }, function errorCallback(err) {
                 $log.error(err);
             });
